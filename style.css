@@ -1,0 +1,148 @@
+:root {
+    --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311042 100%);
+    --glass-bg: rgba(255, 255, 255, 0.08);
+    --glass-border: rgba(255, 255, 255, 0.15);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    --text-color: #f8fafc;
+    --accent-color: #6366f1;
+}
+
+[data-theme="light"] {
+    --bg-gradient: linear-gradient(135deg, #e0e7ff 0%, #f3e8ff 50%, #fce7f3 100%);
+    --glass-bg: rgba(255, 255, 255, 0.55);
+    --glass-border: rgba(255, 255, 255, 0.4);
+    --text-color: #0f172a;
+    --accent-color: #4f46e5;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+    background: var(--bg-gradient);
+    background-attachment: fixed;
+    color: var(--text-color);
+    min-height: 100vh;
+    padding: 15px;
+}
+
+.glass-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.glass-header, .glass-card, .glass-nav {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    box-shadow: var(--glass-shadow);
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.glass-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo { display: flex; align-items: center; gap: 10px; }
+.logo-icon { font-size: 28px; }
+
+.glass-nav {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 10px;
+}
+
+.nav-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-color);
+    padding: 10px 16px;
+    border-radius: 12px;
+    cursor: pointer;
+    white-space: nowrap;
+    opacity: 0.7;
+    transition: 0.3s;
+}
+
+.nav-btn.active, .nav-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    opacity: 1;
+}
+
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+.day-selector {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    margin-bottom: 15px;
+}
+
+.day-btn {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    color: var(--text-color);
+    padding: 8px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.day-btn.active {
+    background: var(--accent-color);
+    color: white;
+}
+
+.cards-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.lesson-card {
+    border-left: 4px solid var(--accent-color);
+}
+
+.glass-input, .glass-select {
+    background: rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--glass-border);
+    color: var(--text-color);
+    padding: 10px;
+    border-radius: 10px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.glass-btn {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid var(--glass-border);
+    color: var(--text-color);
+    padding: 10px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.glass-btn.primary { background: var(--accent-color); color: white; }
+
+.pomodoro-box { text-align: center; }
+.timer-display { font-size: 50px; font-weight: bold; margin: 20px 0; }
+
+.flashcard {
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 20px;
+    cursor: pointer;
+}

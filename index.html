@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="kk" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyHub SuperApp</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1a1c29">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3429/3429149.png">
+</head>
+<body>
+    <div class="glass-container">
+        <!-- Header -->
+        <header class="glass-header">
+            <div class="logo">
+                <span class="logo-icon">🏛️</span>
+                <div>
+                    <h1>StudyHub</h1>
+                    <p id="groupStatusText">Истфак • 2-топ</p>
+                </div>
+            </div>
+            <div class="header-controls">
+                <select id="groupSelect" class="glass-select" onchange="switchGroup(this.value)">
+                    <option value="2">2-ші топ</option>
+                    <option value="1">1-ші топ</option>
+                    <option value="all">Барлық топтар</option>
+                </select>
+                <button class="glass-btn icon-btn" onclick="toggleTheme()" title="Тема">🌗</button>
+            </div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <nav class="glass-nav">
+            <button class="nav-btn active" onclick="switchTab('schedule')">📅 Расписание</button>
+            <button class="nav-btn" onclick="switchTab('tasks')">✅ Задачи & GPA</button>
+            <button class="nav-btn" onclick="switchTab('pomodoro')">🍅 Фокус</button>
+            <button class="nav-btn" onclick="switchTab('flashcards')">🃏 Карточкалар</button>
+            <button class="nav-btn" onclick="switchTab('notes')">📝 Жазбалар</button>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="glass-main">
+            <!-- 1. Schedule Tab -->
+            <section id="schedule-tab" class="tab-content active">
+                <div class="day-selector">
+                    <button class="day-btn active" onclick="filterDay('Дүйсенбі')">Дүйсенбі</button>
+                    <button class="day-btn" onclick="filterDay('Сейсенбі')">Сейсенбі</button>
+                    <button class="day-btn" onclick="filterDay('Сәрсенбі')">Сәрсенбі</button>
+                    <button class="day-btn" onclick="filterDay('Бейсенбі')">Бейсенбі</button>
+                    <button class="day-btn" onclick="filterDay('Жұма')">Жұма</button>
+                </div>
+                <div id="scheduleContainer" class="cards-grid"></div>
+            </section>
+
+            <!-- 2. Tasks & GPA Tab -->
+            <section id="tasks-tab" class="tab-content">
+                <div class="gpa-card glass-card">
+                    <h3>🎓 GPA Калькулятор</h3>
+                    <div class="gpa-display">
+                        <span id="gpaScore">0.00</span>
+                        <small>/ 4.00</small>
+                    </div>
+                </div>
+
+                <div class="task-input-box glass-card">
+                    <h3>Жаңа тапсырма қосу</h3>
+                    <div class="input-group">
+                        <input type="text" id="taskTitle" placeholder="Тапсырма атауы..." class="glass-input">
+                        <input type="number" id="taskGrade" placeholder="Балл (0-100)" class="glass-input" min="0" max="100">
+                        <input type="number" id="taskCredits" placeholder="Кредит" class="glass-input" min="1">
+                        <button class="glass-btn primary" onclick="addTask()">Қосу</button>
+                    </div>
+                </div>
+                <div id="taskList" class="tasks-container"></div>
+            </section>
+
+            <!-- 3. Pomodoro Tab -->
+            <section id="pomodoro-tab" class="tab-content">
+                <div class="pomodoro-box glass-card">
+                    <div class="timer-display" id="timerDisplay">25:00</div>
+                    <div class="timer-controls">
+                        <button class="glass-btn primary" onclick="toggleTimer()">Старт / Пауза</button>
+                        <button class="glass-btn" onclick="resetTimer()">Сброс</button>
+                    </div>
+                    <div class="ambient-controls">
+                        <h4>🔊 Фоновые звуки (Ambient)</h4>
+                        <button class="glass-btn sound-btn" onclick="toggleAmbient('rain')">🌧️ Жаңбыр</button>
+                        <button class="glass-btn sound-btn" onclick="toggleAmbient('white')">📻 Ақ шу</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. Flashcards Tab -->
+            <section id="flashcards-tab" class="tab-content">
+                <div class="flashcard-container">
+                    <div class="flashcard glass-card" onclick="flipCard()" id="flashcard">
+                        <div class="card-inner">
+                            <div class="card-front" id="cardFront">Сұрақ жүктелуде...</div>
+                            <div class="card-back" id="cardBack">Жауап жүктелуде...</div>
+                        </div>
+                    </div>
+                    <div class="card-controls">
+                        <button class="glass-btn" onclick="nextCard()">Келесі карточка ➡️</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5. Notes Tab -->
+            <section id="notes-tab" class="tab-content">
+                <div class="glass-card">
+                    <h3>📝 Жазба қосу</h3>
+                    <input type="text" id="noteTitle" placeholder="Тақырыбы" class="glass-input">
+                    <textarea id="noteContent" placeholder="Конспект..." class="glass-input textarea"></textarea>
+                    <button class="glass-btn primary" onclick="addNote()">Сақтау</button>
+                </div>
+                <div id="notesList" class="cards-grid"></div>
+            </section>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js')
+                .then(() => console.log('Service Worker зарегистрирован!'))
+                .catch(err => console.log('SW ошибка:', err));
+        }
+    </script>
+</body>
+</html>
